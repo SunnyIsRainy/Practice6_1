@@ -30,6 +30,7 @@ class SignUpActivity : BaseActivity() {
                         runOnUiThread{
                             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
+                        finish()
                     }
                     else {
                         val message = jsonObj.getString("message")
