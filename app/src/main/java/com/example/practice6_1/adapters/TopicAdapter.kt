@@ -13,8 +13,8 @@ import com.example.practice6_1.data.Topic
 
 class TopicAdapter(
     val mContext: Context,
-    val resId: Int,
-    val mList: ArrayList<Topic>): ArrayAdapter<Topic>(mContext, resId, mList) {
+    resId: Int,
+    val mList: List<Topic>): ArrayAdapter<Topic>(mContext, resId, mList) {
 
     val mInflater = LayoutInflater.from(mContext)
 
