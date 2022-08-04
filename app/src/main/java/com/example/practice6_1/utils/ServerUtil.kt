@@ -87,6 +87,28 @@ class ServerUtil {
 
             })
         }
+
+        fun getRequestTopicInfo(context: Context, handler: JsonResponseHandler?) {
+            val urlBuilder = "${BASE_URL}/v2_main_info".toHttpUrlOrNull()!!.newBuilder()
+            val urlString = urlBuilder.toString()
+
+            val request = Request.Builder()
+                .url(urlString).header("X-Http_Token", ContextUtil.getToken(context))
+                .get()
+                .build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    handler?.onResponse(jsonObj)
+                }
+            })
+        }
+
     }
 
 }
