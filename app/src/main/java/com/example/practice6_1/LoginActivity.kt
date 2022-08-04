@@ -29,12 +29,17 @@ class LoginActivity : BaseActivity() {
                     if (code == 200) {
                         val message = jsonObj.getString("message")
                         val dataObj = jsonObj.getJSONObject("data")
-                        val token = dataObj.getString("token")
-
-                        ContextUtil.setToken(mContext, token)
                         runOnUiThread{
                             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
+
+                        val token = dataObj.getString("token")
+                        ContextUtil.setToken(mContext, token)
+
+                        val myIntent = Intent(mContext, MainActivity::class.java)
+                        startActivity(myIntent)
+                        finish()
+
                     }
                     else {
                         val message = jsonObj.getString("message")
