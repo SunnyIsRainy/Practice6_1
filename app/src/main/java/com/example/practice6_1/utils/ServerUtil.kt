@@ -1,6 +1,8 @@
 package com.example.practice6_1.utils
 
+import android.content.Context
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONObject
 import java.io.IOException
 
@@ -62,6 +64,29 @@ class ServerUtil {
             })
         }
 
+        fun getRequestDuflCheck(type: String, value: String, handler: JsonResponseHandler?) {
+            val urlBuilder = "${BASE_URL}/user_check".toHttpUrlOrNull()!!.newBuilder()
+            urlBuilder.addEncodedQueryParameter("type", type)
+            urlBuilder.addEncodedQueryParameter("value", value)
+            val urlString = urlBuilder.toString()
+
+            val request = Request.Builder()
+                .url(urlString)
+                .get()
+                .build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    handler?.onResponse(jsonObj)
+                }
+
+            })
+        }
     }
 
 }

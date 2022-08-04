@@ -42,6 +42,55 @@ class SignUpActivity : BaseActivity() {
 
             })
         }
+
+        emailDuflCheckBtn.setOnClickListener {
+            val inputEmail = emailEdt.text.toString()
+            val type = "EMAIL"
+
+            ServerUtil.getRequestDuflCheck(type, inputEmail, object : ServerUtil.Companion.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+                    val code = jsonObj.getInt("code")
+                    if (code == 200) {
+                        val message = jsonObj.getString("message")
+                        runOnUiThread{
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    else {
+                        val message = jsonObj.getString("message")
+                        runOnUiThread{
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+            })
+        }
+
+        nicknameDuflCheckBtn.setOnClickListener {
+            val inputNickname = nicknameEdt.text.toString()
+            val type = "NICK_NAME"
+
+            ServerUtil.getRequestDuflCheck(type, inputNickname, object : ServerUtil.Companion.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+                    val code = jsonObj.getInt("code")
+                    if (code == 200) {
+                        val message = jsonObj.getString("message")
+                        runOnUiThread{
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    else {
+                        val message = jsonObj.getString("message")
+                        runOnUiThread{
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+            })
+        }
+
     }
 
     override fun setValue() {
