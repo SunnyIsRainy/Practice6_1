@@ -1,5 +1,6 @@
 package com.example.practice6_1
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.practice6_1.adapters.TopicAdapter
@@ -21,6 +22,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvent() {
+        topicListView.setOnItemClickListener { parent, view, position, id ->
+            val clickedTopic = mTopicList[position]
+
+            val myIntent = Intent(mContext, ViewTopicDetailActivity::class.java)
+            myIntent.putExtra("topic", clickedTopic)
+            startActivity(myIntent)
+        }
     }
 
     override fun setValue() {
