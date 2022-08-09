@@ -93,7 +93,32 @@ class ServerUtil {
             val urlString = urlBuilder.toString()
 
             val request = Request.Builder()
-                .url(urlString).header("X-Http-Token", ContextUtil.getToken(context))
+                .url(urlString)
+                .header("X-Http-Token", ContextUtil.getToken(context))
+                .get()
+                .build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    handler?.onResponse(jsonObj)
+                }
+            })
+        }
+
+        fun getRequestTopicDetail(context: Context, topicId: Int, handler: JsonResponseHandler?) {
+            val urlBuilder = "${BASE_URL}/topic".toHttpUrlOrNull()!!.newBuilder()
+            urlBuilder.addEncodedPathSegment(topicId.toString())
+            urlBuilder.addEncodedQueryParameter("order_type", "NEW")
+            val urlString = urlBuilder.toString()
+
+            val request = Request.Builder()
+                .url(urlString)
+                .header("X-Http-Token", ContextUtil.getToken(context))
                 .get()
                 .build()
             val client = OkHttpClient()

@@ -8,6 +8,7 @@ class Topic: Serializable {
     var id = 0
     var title = ""
     var imgUrl = ""
+    var sides = ArrayList<Side>()
 
     companion object {
 
@@ -17,6 +18,14 @@ class Topic: Serializable {
             resultTopic.id = jsonObj.getInt("id")
             resultTopic.title = jsonObj.getString("title")
             resultTopic.imgUrl = jsonObj.getString("img_url")
+
+            val sidesArr = jsonObj.getJSONArray("sides")
+
+            for (i in 0 until sidesArr.length()) {
+                val sideObj = sidesArr.getJSONObject(i)
+                val side = Side.getSideFromJson(sideObj)
+                resultTopic.sides.add(side)
+            }
 
             return resultTopic
         }
