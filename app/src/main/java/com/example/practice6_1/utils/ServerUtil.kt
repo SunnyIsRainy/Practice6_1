@@ -135,7 +135,7 @@ class ServerUtil {
         }
 
         fun postRequestVote(context: Context, sideId: Int, handler: JsonResponseHandler?) {
-            val urlString = "${BASE_URL}/user"
+            val urlString = "${BASE_URL}/topic_vote"
             val formData = FormBody.Builder()
                 .add("side_id", sideId.toString())
                 .build()

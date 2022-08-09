@@ -21,6 +21,22 @@ class ViewTopicDetailActivity : BaseActivity() {
     }
 
     override fun setupEvent() {
+        firstVoteBtn.setOnClickListener {
+            ServerUtil.postRequestVote(mContext, mTopic.sides[0].id, object : ServerUtil.Companion.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+                    getTopicDetailFromServer()
+                }
+            })
+        }
+
+        secondVoteBtn.setOnClickListener {
+            ServerUtil.postRequestVote(mContext, mTopic.sides[1].id, object : ServerUtil.Companion.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+                    getTopicDetailFromServer()
+                }
+            })
+        }
+
     }
 
     override fun setValue() {
@@ -29,6 +45,11 @@ class ViewTopicDetailActivity : BaseActivity() {
         topicTitleTxt.text = mTopic.title
         Glide.with(mContext).load(mTopic.imgUrl).into(topicImg)
 
+        getTopicDetailFromServer()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getTopicDetailFromServer()
     }
 
